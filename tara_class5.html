@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tara Reading - Class 5</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.8;
+    font-size: 20px;
+    padding: 30px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    color: white;
+    font-size: 42px;
+    margin-bottom: 10px;
+    text-shadow: 3px 3px 6px rgba(0,0,0,0.4);
+    font-weight: bold;
+}
+
+.credits {
+    text-align: center;
+    color: white;
+    font-size: 18px;
+    margin-bottom: 40px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.4);
+    font-style: italic;
+    background: rgba(255, 255, 255, 0.1);
+    padding: 10px 20px;
+    border-radius: 10px;
+    display: inline-block;
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
+.story-container {
+    background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+    padding: 30px;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease;
+}
+
+.story-container:hover {
+    transform: translateY(-5px);
+}
+
+.story-container:nth-child(2) {
+    background: linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%);
+}
+
+.story-container:nth-child(3) {
+    background: linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%);
+}
+
+.story-container:nth-child(4) {
+    background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
+}
+
+.story-header {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px 25px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.story-header:hover {
+    transform: scale(1.02);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.story-header h2 {
+    font-size: 28px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.button-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.play-button {
+    background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+    color: white;
+    border: none;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.play-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+
+.play-button.playing {
+    background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+    animation: pulse-button 1.5s infinite;
+}
+
+@keyframes pulse-button {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.story-text {
+    color: #2d3748;
+    text-align: justify;
+    font-size: 20px;
+    line-height: 1.9;
+}
+
+.word {
+    cursor: pointer;
+    padding: 3px 5px;
+    border-radius: 4px;
+    transition: all 0.2s ease;
+    display: inline-block;
+}
+
+.word:hover {
+    background-color: rgba(255, 255, 0, 0.6);
+    transform: scale(1.05);
+}
+
+.word.clicked {
+    background-color: rgba(255, 165, 0, 0.7);
+    font-weight: bold;
+}
+
+.word.reading {
+    background-color: rgba(50, 205, 50, 0.7);
+    font-weight: bold;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.7;
+    }
+}
+
+.icon {
+    font-size: 24px;
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>📖 Tara Reading - Class 5 📖</h1>
+    <div class="credits">Created by A.Abhilash Goud (PRT) KV Nizamabad</div>
+    
+    <div id="stories"></div>
+</div>
+
+<script>
+const stories = [
+    {
+        title: "How Animals Protect Themselves",
+        text: `We have all seen pictures of a lion killing a zebra or a tiger killing a deer. Animals that eat meat can live only if they kill and eat other animals. Bigger or stronger animals kill smaller or weaker ones. How then, can smaller and weaker animals take care of themselves? Some animals run very fast. A kangaroo, for example, can move very fast when it is in danger. And a tiger cannot always catch a deer that is running away from it. Small animals like the squirrel or the mouse hide in holes in trees or in the ground. Some animals that live near the sea have hard shells to cover their bodies. Turtles, for example, pull their heads under their shells when they are in danger. The little porcupine has sharp quills all over its body, and it sticks them out when it senses danger. That is why even the tiger is afraid of it.`
+    },
+    {
+        title: "The Stonecutter",
+        text: `Kallu was a poor stonecutter. One day, it was hot, and Kallu did not feel like working. He put his pick-axe down and said that he wanted to be rich. Suddenly, an angel came down from heaven and told him that he would be rich. And so, Kallu became rich. He ate and drank all day. One day, he saw a king. Everybody bowed to him. Kallu said that money wasn't enough and that he wanted to be a king. The angel came again and made him a king. Now, everybody bowed to him. Kallu was happy. One day, he was going around his country. The hot sun burnt him. Suddenly, Kallu shouted that he wanted to be the sun. The angel came again and turned Kallu into the sun. Kallu burnt everything. He burnt the faces of the kings. He burnt the faces of the rich and of the stonecutters who were cutting stones.`
+    },
+    {
+        title: "The Little Boy and the Little Bear",
+        text: `There was once a little boy who lived next door to a little bear, and they played with each other every day. They rode their bicycles together and learned how to fly kites together. Sometimes, they even stayed overnight at each other's houses. The little bear didn't stop talking about the fun he had at the little boy's house, and the little boy talked about the bear's house all the time. At bedtime, he said that at Bear's house, they went fishing in the middle of the night. Whenever his bath was ready, the little boy would say that they didn't have to have a bath at Bear's house. Finally, his mother said that perhaps he should go and live at Bear's house and be a bear. So she helped him pack his bag and opened the door for him. But once the door was shut, the little boy didn't run next door as he usually did.`
+    }
+];
+
+let currentReadingStory = null;
+let isReading = false;
+let currentWordIndex = 0;
+let storyWords = [];
+let readingTimeout;
+
+const storiesDiv = document.getElementById('stories');
+
+// Create story containers
+stories.forEach((story, storyIndex) => {
+    const storyContainer = document.createElement('div');
+    storyContainer.className = 'story-container';
+    
+    // Story header (clickable)
+    const storyHeader = document.createElement('div');
+    storyHeader.className = 'story-header';
+    storyHeader.innerHTML = `<h2>${story.title}</h2>`;
+    storyHeader.onclick = function() {
+        speakText(story.title);
+    };
+    
+    // Button container
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'button-container';
+    
+    const playButton = document.createElement('button');
+    playButton.className = 'play-button';
+    playButton.id = `play-btn-${storyIndex}`;
+    playButton.innerHTML = `<span class="icon">▶️</span><span>Play Story</span>`;
+    playButton.onclick = function() {
+        toggleReading(storyIndex);
+    };
+    
+    buttonContainer.appendChild(playButton);
+    
+    // Story text
+    const storyText = document.createElement('div');
+    storyText.className = 'story-text';
+    storyText.id = `story-${storyIndex}`;
+    
+    storyContainer.appendChild(storyHeader);
+    storyContainer.appendChild(buttonContainer);
+    storyContainer.appendChild(storyText);
+    storiesDiv.appendChild(storyContainer);
+    
+    // Split text into words and wrap each word in span
+    const words = [];
+    story.text.split(/(\s+)/).forEach((word, wordIndex) => {
+        if (word.trim().length > 0 && !word.match(/^\s+$/)) {
+            const span = document.createElement('span');
+            span.textContent = word;
+            span.className = 'word';
+            span.dataset.storyIndex = storyIndex;
+            
+            // Single click for pronunciation
+            span.onclick = function(e) {
+                e.stopPropagation();
+                const cleanWord = word.replace(/[.,!?]/g, "");
+                if (!isReading && cleanWord) {
+                    speakText(cleanWord);
+                    this.classList.add('clicked');
+                    const element = this;
+                    setTimeout(() => element.classList.remove('clicked'), 500);
+                }
+            };
+            
+            storyText.appendChild(span);
+            words.push({
+                element: span,
+                text: word.replace(/[.,!?]/g, "")
+            });
+        } else {
+            storyText.appendChild(document.createTextNode(word));
+        }
+    });
+    
+    story.wordElements = words;
+});
+
+function speakText(text) {
+    if (!text || text.trim() === '') return;
+    
+    // Cancel any ongoing speech
+    if (window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+    }
+    
+    // Small delay to ensure cancellation completes
+    setTimeout(() => {
+        const utterance = new SpeechSynthesisUtterance(text.trim());
+        utterance.rate = 1.0;
+        utterance.pitch = 1;
+        utterance.lang = 'en-US';
+        utterance.volume = 1;
+        
+        window.speechSynthesis.speak(utterance);
+    }, 100);
+}
+
+function toggleReading(storyIndex) {
+    const playButton = document.getElementById(`play-btn-${storyIndex}`);
+    
+    if (currentReadingStory === storyIndex && isReading) {
+        // Stop reading
+        stopReading();
+        playButton.innerHTML = `<span class="icon">▶️</span><span>Play Story</span>`;
+        playButton.classList.remove('playing');
+    } else {
+        // Stop any current reading
+        if (isReading) {
+            stopReading();
+            const oldButton = document.getElementById(`play-btn-${currentReadingStory}`);
+            oldButton.innerHTML = `<span class="icon">▶️</span><span>Play Story</span>`;
+            oldButton.classList.remove('playing');
+        }
+        
+        // Start reading this story
+        currentReadingStory = storyIndex;
+        storyWords = stories[storyIndex].wordElements;
+        currentWordIndex = 0;
+        isReading = true;
+        playButton.innerHTML = `<span class="icon">⏸️</span><span>Stop Story</span>`;
+        playButton.classList.add('playing');
+        readNextWord();
+    }
+}
+
+function readNextWord() {
+    if (!isReading || currentWordIndex >= storyWords.length) {
+        stopReading();
+        if (currentReadingStory !== null) {
+            const playButton = document.getElementById(`play-btn-${currentReadingStory}`);
+            playButton.innerHTML = `<span class="icon">▶️</span><span>Play Story</span>`;
+            playButton.classList.remove('playing');
+        }
+        return;
+    }
+    
+    // Remove previous highlight
+    if (currentWordIndex > 0) {
+        storyWords[currentWordIndex - 1].element.classList.remove('reading');
+    }
+    
+    // Highlight current word
+    const currentWord = storyWords[currentWordIndex];
+    currentWord.element.classList.add('reading');
+    currentWord.element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    
+    // Speak the word
+    const utterance = new SpeechSynthesisUtterance(currentWord.text);
+    utterance.rate = 1.1;
+    utterance.pitch = 1;
+    utterance.lang = 'en-US';
+    
+    utterance.onend = function() {
+        currentWord.element.classList.remove('reading');
+        currentWordIndex++;
+        readingTimeout = setTimeout(readNextWord, 0);
+    };
+    
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+}
+
+function stopReading() {
+    isReading = false;
+    window.speechSynthesis.cancel();
+    clearTimeout(readingTimeout);
+    
+    // Remove all reading highlights
+    if (storyWords.length > 0) {
+        storyWords.forEach(word => {
+            word.element.classList.remove('reading');
+        });
+    }
+}
+</script>
+
+</body>
+</html>
